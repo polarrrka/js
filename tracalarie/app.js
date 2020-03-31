@@ -62,17 +62,18 @@ const UICtrl = (function(){
       let html = '';
       items.forEach(function(item) {
         html += `<li class="collection-item" id="item-${item.id}">
-        <strong>${item.name}: </strong> <em>${item.calories} Kcal</em>
-        <a href="#" class="secondary-content"><i class="edit-item fa fa-pencil"></i>
+        <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
+        <a href="#" class="secondary-content">
+          <i class="edit-item fa fa-pencil"></i>
         </a>
-      </li>`;
+       </li>`;
       });
       document.querySelector(UISelectors.itemList).innerHTML = html; //insert list items to html
     },
     getItemInput: function() {
       return {
-        name: document.querySelector(UISelectors.itemNameInput.value),
-        calories: document.querySelector(UISelectors.itemCaloriesInput.value)
+        name: document.querySelector(UISelectors.itemNameInput).value,
+        calories: document.querySelector(UISelectors.itemCaloriesInput).value
       }
     },
     addListItem: function(item) {
@@ -118,7 +119,6 @@ const AppCtrl = (function(ItemCtrl, UICtrl){
       UICtrl.showTotalCal(totalCalories);// add total cal to ui
       UICtrl.clearInput(); //clear fields
     }
-
     e.preventDefault();
   }
 
@@ -130,10 +130,11 @@ const AppCtrl = (function(ItemCtrl, UICtrl){
       } else {
         UICtrl.populateItemList(items);
       }
+      const totalCalories = ItemCtrl.getTotalCal(); // get total calories
+      UICtrl.showTotalCal(totalCalories);// add total cal to ui
       loadEventListeners(); //load event listeners
     }
   }
-
 })(ItemCtrl, UICtrl);
 
 // init app
