@@ -8,11 +8,11 @@ const ItemCtrl = (function(){
     this.calories = calories;
   }
   const data = {
-   /*  items: [
-      {id: 0, name: 'steak dinner', calories: 1200}, 
+    items: [
+    /*{id: 0, name: 'steak dinner', calories: 1200}, 
       {id: 1, name: 'cookie', calories: 400}, 
-      {id: 2, name: 'muffiny', calories: 500}
-    ], */
+      {id: 2, name: 'muffiny', calories: 500} */
+    ], 
     currentItem: null, 
     totalCalories: 0
   }
@@ -33,6 +33,14 @@ const ItemCtrl = (function(){
        
         return newItem;
       },
+      getTotalCal: function() {
+        let total = 0;
+        data.items.forEach(function(item) {
+          total += item.calories;
+        });
+        data.totalCalories = total;
+        return data.totalCalories;
+      },
       logData: function() {
         return data;
       }
@@ -45,7 +53,8 @@ const UICtrl = (function(){
     itemList: '#item-list',
     addBtn: '.add-btn',
     itemNameInput: '#item-name',
-    itemCaloriesInput: '#item-calories'
+    itemCaloriesInput: '#item-calories',
+    totalCalories: '.total-calories'
   }
 
   return {
@@ -83,6 +92,9 @@ const UICtrl = (function(){
     hideList: function() {
       document.querySelector(UISelectors.itemList).style.display = 'none';
     },
+    showTotalCal: function(totalCalories) {
+      document.querySelector(UISelectors.totalCalories).textContent = totalCalories;
+    },
     getSelectors: function() {
       return UISelectors;
     }
@@ -102,6 +114,8 @@ const AppCtrl = (function(ItemCtrl, UICtrl){
     if(input.name !== '' && input.calories !== '') {
       const newItem = ItemCtrl.addItem(input.name, input.calories);
       UICtrl.addListItem(newItem); //add item to ui list
+      const totalCalories = ItemCtrl.getTotalCal(); // get total calories
+      UICtrl.showTotalCal(totalCalories);// add total cal to ui
       UICtrl.clearInput(); //clear fields
     }
 
