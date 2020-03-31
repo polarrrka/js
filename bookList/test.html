@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /*   Your task is to split the chocolate bar of given dimension n x m into small squares.Each square is of size 1x1 and unbreakable.Implement a function that will return minimum number of breaks needed.
+    
+      For example if you are given a chocolate bar of size 2 x 1 you can split it to single squares in just one break, but for size 3 x 1 you must do two breaks.
+    
+    If input data is invalid you should return 0(as in no breaks are needed if we do not have any chocolate to split).Input will always be a non - negative integer. */
+
+    const breakChocolate = (n, m) => {
+      if ((n && m === 1) || (n === 0) || (m === 0)) {
+        return 0;
+      } else {
+        return (n * m) - 1;
+      }
+    }
+
+    let a = 0;
+    if (a <= 0) {
+      console.log(a)
+    }
+    console.log(breakChocolate(5, 5)); // 24
+
+
+    /*   divide(2) === false // 2 = 1 + 1
+      divide(3) === false // 3 = 1 + 2
+      divide(4) === true  // 4 = 2 + 2
+      divide(5) === false // 5 = 2 + 3
+      divide(6) === true  // 6 = 2 + 4 */
+
+    const divide = num => ((num % 2) === 0 || num !== 2) ? true : false;
+
+
+    console.log(divide(4)); // true
+    console.log(divide(2)); // false
+
+
+
+    // E.g.Input: "aa", "bb", "cc" => Output: "abcabc"
+    const tripleTrouble = (one, two, three) => {
+      let res = "";
+      for (let i = 0; i < Math.min(one.length, two.length, three.length); i++) {
+        res += one.charAt(i) + two.charAt(i) + three.charAt(i);
+      }
+      return res;
+    }
+
+    console.log(tripleTrouble("Bm", "aa", "tn")); // Batman
+
+
+    const noOdds = (values) => {
+      let filtr = values.filter((values, i) => i % 2 === 1);
+      return filtr;
+    }
+
+    const findAll = (array, n) => {
+      let index = [], i = -1;
+      while ((i = array.indexOf(n, i + 1)) != -1) {
+        index.push(i);
+      }
+      return index;
+    }
+
+    console.log(findAll([6, 9, 3, 4, 3, 82, 11], 3)) // [2, 4]
+
+
+
+    function capitalize(s) {
+      let even = s.split(' ').map((a, i) => a.split('').map((e, i) => i % 2 == 0 ? e.toUpperCase() : e.toLowerCase()).join('')).join(' '),
+        odd = s.split(' ').map((a, i) => a.split('').map((e, i) => i % 2 == 1 ? e.toUpperCase() : e.toLowerCase()).join('')).join(' '),
+        vysl = [];
+      const res = vysl.push(even, odd);
+      return vysl;
+    };
+
+
+    console.log(capitalize("abcdef")) // ['AbCdEf', 'aBcDeF']
+
+
+    function growingPlant(upSpeed, downSpeed, desiredHeight) {
+      let day = 0,
+        night = 0;
+      for (i = 1; i < desiredHeight; i++) {
+        day = night + upSpeed;
+        night = day - downSpeed;
+
+        if (desiredHeight > night && desiredHeight < day) {
+          return i;
+        }
+      }
+    }
+    console.log(growingPlant(14, 6, 18)) //, 13)
+
+  </script>
+</body>
+
+</html>
