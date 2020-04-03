@@ -54,7 +54,10 @@ const UICtrl = (function(){
     addBtn: '.add-btn',
     itemNameInput: '#item-name',
     itemCaloriesInput: '#item-calories',
-    totalCalories: '.total-calories'
+    totalCalories: '.total-calories',
+    updateBtn: '.update-btn',
+    deleteBtn: '.delete-btn',
+    backBtn: '.back-btn'
   }
 
   return {
@@ -96,6 +99,13 @@ const UICtrl = (function(){
     showTotalCal: function(totalCalories) {
       document.querySelector(UISelectors.totalCalories).textContent = totalCalories;
     },
+    clearEditState: function() {
+      UICtrl.clearInput();
+      document.querySelector(UISelectors.updateBtn).style.display = 'none';
+      document.querySelector(UISelectors.deleteBtn).style.display = 'none';
+      document.querySelector(UISelectors.backBtn).style.display = 'none';
+      document.querySelector(UISelectors.addBtn).style.display = 'inline';
+    },
     getSelectors: function() {
       return UISelectors;
     }
@@ -108,6 +118,7 @@ const AppCtrl = (function(ItemCtrl, UICtrl){
   const loadEventListeners = function() { // load event listeners
     const UISelectors = UICtrl.getSelectors(); // get ui selector
     document.querySelector(UISelectors.addBtn).addEventListener('click', itemAddSubmit);
+    document.querySelector(UISelectors.itemList).addEventListener('click', itemUpdateSubmit);
   
   } 
   const itemAddSubmit = function(e) { //add item submit
@@ -122,8 +133,19 @@ const AppCtrl = (function(ItemCtrl, UICtrl){
     e.preventDefault();
   }
 
+  const itemUpdateSubmit = function(e) {
+    if (e.target.classList.contains('edit-item')) { // only clicking on edit icon
+      const listId = e.target.parentNode.parentNode.id;// get list item id
+      const listIdArr = listId.split('-'); // rozdělí item-0 na array
+      const id = parseInt(listIdArr[1]);
+      const itemToEdit = ItemCtrl.getItemById(id);
+    }
+    e.preventDefault();
+  }
+
   return {
     init: function() {
+      UICtrl.clearEditState();
       const items = ItemCtrl.getItems(); // get items from data structure
       if (items.length === 0) { // check if any items
         UICtrl.hideList();
